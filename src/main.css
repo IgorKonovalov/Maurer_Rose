@@ -1,0 +1,29 @@
+input[type="range"] {
+  margin-bottom: -0px;
+}
+span {
+  margin-top: 2px;
+  margin-left:5px;
+}
+input[type="text"] {
+  width: 40px;
+}
+.flexContainer {
+  max-width: 740px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.spans,
+.inputs,
+.spansValue {
+  display: flex;
+  flex-direction: column;
+}
+.spansValue {
+  min-width: 10%;
+}
+.inputs {
+  min-width: 70%;
+}
