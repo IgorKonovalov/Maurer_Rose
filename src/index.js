@@ -6,7 +6,10 @@ let r, x, y, fi, deg;
 const inputN = document.getElementById('n');
 const inputD = document.getElementById('d');
 const inputMaurer = document.getElementById('maurer');
-const arrayInputs = [inputN, inputD, inputMaurer];
+const inputSize= document.getElementById('size');
+const inputRotate = document.getElementById('rotate');
+const inputGG= document.getElementById('gg');
+const arrayInputs = [inputN, inputD, inputMaurer,inputSize,inputRotate ,inputGG];
 const checkRose = document.getElementById('showRose');
 const checkMaurer = document.getElementById('showMaurer');
 const arrayCheck = [checkRose, checkMaurer];
@@ -14,14 +17,17 @@ const arrayCheck = [checkRose, checkMaurer];
 let n = 20;
 let d = 2;
 let k = n/d;
-
 let maurer = 71; // 0-360
+let size = 300;
+let rotate = 0; 
+let gg = 0; //Guido Grandi
+
 const xStart = canvas.width/2;
 const yStart = canvas.height/2;
 
 cx.lineCap = 'round';
 
-function draw(n, d, maurer, k) {
+function draw(n, d, maurer, k,size, rotate,gg) {
   cx.clearRect(0, 0, canvas.width, canvas.height);
   // connecting rose on angle
   if (checkMaurer.checked) {
@@ -29,7 +35,7 @@ function draw(n, d, maurer, k) {
     cx.strokeStyle = 'blue';
     for (let i = 0; i < 3600; i++) {
       fi = (maurer * i) * Math.PI / 180;
-      r = Math.sin(-k * fi) * (xStart - 20);
+      r = Math.sin(-k * fi-rotate) * (size) + Math.round(gg);
       x = xStart + r * Math.cos(fi);
       y = yStart + r * Math.sin(fi);
       cx.lineTo(x, y);
@@ -42,7 +48,7 @@ function draw(n, d, maurer, k) {
     cx.strokeStyle = 'red';
     for (let a = 0; a < 3600 * Math.ceil(d); a++) {
       deg = a * Math.PI / 180;
-      r = Math.sin(-k * deg) * (xStart - 20);
+      r = Math.sin(-k * deg-rotate) * (size) + Math.round(gg);
       x = xStart + r * Math.cos(deg);
       y = xStart + r * Math.sin(deg);
       cx.lineTo(x, y);
@@ -51,7 +57,7 @@ function draw(n, d, maurer, k) {
   }
 }
 // pre-render
-draw(n, d, maurer, k);
+draw(n, d, maurer, k,size,rotate,gg);
 
 // buttons, range etc..
 
@@ -60,8 +66,11 @@ button.addEventListener('click', () => {
   n = inputN.value;
   d = inputD.value;
   maurer = inputMaurer.value;
+  rotate = inputRotate.value;
+  gg = inputGG.value;
+  size = inputSize.value;
   k = n / d;
-  draw(n, d, maurer, k);
+  draw(n, d, maurer, k,size,rotate,gg);
 })
 // sliders setup
 let elementsArray = []
@@ -103,6 +112,44 @@ rangeMaurer.addEventListener('touchmove', () => {
   inputMaurer.value = rangeMaurer.value;
 })
 
+const rangeRotateValue = document.getElementById('rangeRotateValue');
+const rangeRotate = document.getElementById('rangeRotate');
+elementsArray.push(rangeRotate);
+rangeRotateValue.innerHTML = rangeRotate.value;
+rangeRotate.addEventListener('mousemove', () => {
+  rangeRotateValue.innerHTML = rangeRotate.value;
+  inputRotate.value = rangeRotate.value;
+})
+rangeRotate.addEventListener('touchmove', () => {
+  rangeRotateValue.innerHTML = rangeRotate.value;
+  inputRotate.value = rangeRotate.value;
+})
+
+const rangeGGValue = document.getElementById('rangeGGValue');
+const rangeGG = document.getElementById('rangeGG');
+elementsArray.push(rangeGG);
+rangeGGValue.innerHTML = rangeGG.value;
+rangeGG.addEventListener('mousemove', () => {
+  rangeGGValue.innerHTML = rangeGG.value;
+  inputGG.value = rangeGG.value;
+})
+rangeGG.addEventListener('touchmove', () => {
+  rangeGGValue.innerHTML = rangeGG.value;
+  inputGG.value = rangeGG.value;
+})
+
+const rangeSizeValue = document.getElementById('rangeSizeValue');
+const rangeSize = document.getElementById('rangeSize');
+elementsArray.push(rangeSize);
+rangeSizeValue.innerHTML = rangeSize.value;
+rangeSize.addEventListener('mousemove', () => {
+  rangeSizeValue.innerHTML = rangeSize.value;
+  inputSize.value = rangeSize.value;
+})
+rangeSize.addEventListener('touchmove', () => {
+  rangeSizeValue.innerHTML = rangeSize.value;
+  inputSize.value = rangeSize.value;
+})
 
 // change events handling
 elementsArray.forEach((element)=>{
@@ -110,8 +157,11 @@ elementsArray.forEach((element)=>{
     n = rangeN.value;
     d = rangeD.value;
     maurer = rangeMaurer.value;
+	size = rangeSize.value;
+	rotate = rangeRotate.value;
+	gg = rangeGG.value;
     k = n / d;
-    draw(n, d, maurer, k);
+    draw(n, d, maurer, k,size,rotate,gg);
   });
 });
 
@@ -120,8 +170,11 @@ elementsArray.forEach((element)=>{
     n = rangeN.value;
     d = rangeD.value;
     maurer = rangeMaurer.value;
+	size = rangeSize.value;
+	rotate = rangeRotate.value;
+	gg = rangeGG.value;
     k = n / d;
-    draw(n, d, maurer, k);
+    draw(n, d, maurer, k,size, rotate,gg);
   });
 });
 
@@ -133,6 +186,7 @@ arrayInputs.forEach((element)=> {
     rangeNValue.innerHTML = rangeN.value = inputN.value;
     rangeDValue.innerHTML = rangeD.value = inputD.value;
     rangeMaurerValue.innerHTML = rangeMaurer.value = inputMaurer.value;
+	rangeGGValue.innerHTML = rangeGG.value = inputGG.value;
   })
 })
 
@@ -140,8 +194,10 @@ arrayCheck.forEach((checkbox) => {
   checkbox.addEventListener('change', () => {
     n = rangeN.value;
     d = rangeD.value;
+	rotate = rangeRotate.value;
     maurer = rangeMaurer.value;
+	gg = rangeGG.value;
     k = n / d;
-    draw(n, d, maurer, k);
+    draw(n, d, maurer, k, rotate,gg);
   })
 })
