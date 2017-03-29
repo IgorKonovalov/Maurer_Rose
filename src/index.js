@@ -56,12 +56,12 @@ function addListenerMulti(element, listeners, fn) {
 
 elementsArray.forEach(element => {
   addListenerMulti(element, 'mousemove touchmove', () => {
-    rangeNValue.innerHTML = rangeN.value;
-    rangeDValue.innerHTML = rangeD.value;
-    rangeMaurerValue.innerHTML = rangeMaurer.value;
-    rangeGGValue.innerHTML = rangeGG.value;
-    rangeSizeValue.innerHTML = rangeSize.value;
-    rangeRotateValue.innerHTML = rangeRotate.value;
+    inputN.value = rangeNValue.innerHTML = rangeN.value;
+    inputD.value = rangeDValue.innerHTML = rangeD.value;
+    inputMaurer.value = rangeMaurerValue.innerHTML = rangeMaurer.value;
+    inputGG.value = rangeGGValue.innerHTML = rangeGG.value;
+    inputSize.value = rangeSizeValue.innerHTML = rangeSize.value;
+    inputRotate.value = rangeRotateValue.innerHTML = rangeRotate.value;
 
     n = rangeN.value;
     d = rangeD.value;
