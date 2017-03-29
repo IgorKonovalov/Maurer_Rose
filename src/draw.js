@@ -19,16 +19,24 @@ function draw(n, d, maurer, k,size, rotate,gg) {
   cx.clearRect(0, 0, canvas.width, canvas.height);
   // connecting rose on angle
   if (checkMaurer.checked) {
-    cx.beginPath();
-    cx.strokeStyle = 'blue';
     for (let i = 0; i < 3600; i++) {
+      cx.strokeStyle = `hsl(${i}, 100%, 50%)`
+      cx.beginPath();
       fi = (maurer * i) * Math.PI / 180;
       r = Math.sin(-k * fi-rotate) * (size) + Math.round(gg);
       x = xStart + r * Math.cos(fi);
       y = yStart + r * Math.sin(fi);
+      if (i === 0) {
+        cx.moveTo(x, y)
+      } else {
+        cx.moveTo(xPrev, yPrev)
+      }
+      xPrev = x;
+      yPrev = y;
       cx.lineTo(x, y);
+      cx.stroke();
     }
-    cx.stroke();
+
   }
   // drawing rose
   if (checkRose.checked) {
