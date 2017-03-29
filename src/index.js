@@ -87,13 +87,14 @@ arrayInputs.forEach((element)=> {
 
 arrayCheck.forEach((checkbox) => {
   checkbox.addEventListener('change', () => {
-    n = rangeN.value;
-    d = rangeD.value;
-    rotate = rangeRotate.value;
-    maurer = rangeMaurer.value;
-    gg = rangeGG.value;
+    n = inputN.value;
+    d = inputD.value;
+    maurer = inputMaurer.value;
+    rotate = inputRotate.value;
+    gg = inputGG.value;
+    size = inputSize.value;
     k = n / d;
-    draw(n, d, maurer, k, rotate,gg);
+    draw(n, d, maurer, k,size,rotate,gg);
   })
 })
 
