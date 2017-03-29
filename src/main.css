@@ -27,3 +27,8 @@ input[type="text"] {
 .inputs {
   min-width: 70%;
 }
+
+.inputsContainer {
+  float: left;
+  padding-right: 70px;
+}

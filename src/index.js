@@ -1,7 +1,7 @@
 const canvas = document.getElementById('rose');
 const cx = canvas.getContext('2d');
 
-let r, x, y, fi, deg;
+// INPUTS
 
 const inputN = document.getElementById('n');
 const inputD = document.getElementById('d');
@@ -9,118 +9,53 @@ const inputMaurer = document.getElementById('maurer');
 const inputSize = document.getElementById('size');
 const inputRotate = document.getElementById('rotate');
 const inputGG= document.getElementById('gg');
+
 const arrayInputs = [inputN, inputD, inputMaurer, inputSize, inputRotate, inputGG];
+
+// CHECKBOXES
+
 const checkRose = document.getElementById('showRose');
 const checkMaurer = document.getElementById('showMaurer');
+
 const arrayCheck = [checkRose, checkMaurer];
 
-// INITIAL CONST
+// SLIDERS
 
-let n = 20;
-let d = 2;
-let k = n/d;
-let maurer = 71; // 0-360
-let size = 300;
-let rotate = 0;
-let gg = 0; // Guido Grandi
-
-const xStart = canvas.width/2;
-const yStart = canvas.height/2;
-
-cx.lineCap = 'round';
-
-function draw(n, d, maurer, k,size, rotate,gg) {
-  cx.clearRect(0, 0, canvas.width, canvas.height);
-  // connecting rose on angle
-  if (checkMaurer.checked) {
-    cx.beginPath();
-    cx.strokeStyle = 'blue';
-    for (let i = 0; i < 3600; i++) {
-      fi = (maurer * i) * Math.PI / 180;
-      r = Math.sin(-k * fi-rotate) * (size) + Math.round(gg);
-      x = xStart + r * Math.cos(fi);
-      y = yStart + r * Math.sin(fi);
-      cx.lineTo(x, y);
-    }
-    cx.stroke();
-  }
-  // drawing rose
-  if (checkRose.checked) {
-    cx.beginPath();
-    cx.strokeStyle = 'red';
-    for (let a = 0; a < 3600 * Math.ceil(d); a++) {
-      deg = a * Math.PI / 180;
-      r = Math.sin(-k * deg-rotate) * (size) + Math.round(gg);
-      x = xStart + r * Math.cos(deg);
-      y = xStart + r * Math.sin(deg);
-      cx.lineTo(x, y);
-    }
-    cx.stroke();
-  }
-}
-// pre-render
-draw(n, d, maurer, k,size,rotate,gg);
-
-// VISUAL SETUP
-
-
-// sliders setup
-
-let elementsArray = []
-const rangeNValue = document.getElementById('rangeNValue');
 const rangeN = document.getElementById('rangeN');
-elementsArray.push(rangeN);
-rangeNValue.innerHTML = rangeN.value;
-
-const rangeDValue = document.getElementById('rangeDValue');
 const rangeD = document.getElementById('rangeD');
-elementsArray.push(rangeD);
-rangeDValue.innerHTML = rangeD.value;
-
-const rangeMaurerValue = document.getElementById('rangeMaurerValue');
 const rangeMaurer = document.getElementById('rangeMaurer');
-elementsArray.push(rangeMaurer);
-rangeMaurerValue.innerHTML = rangeMaurer.value;
-
-const rangeRotateValue = document.getElementById('rangeRotateValue');
 const rangeRotate = document.getElementById('rangeRotate');
-elementsArray.push(rangeRotate);
-rangeRotateValue.innerHTML = rangeRotate.value;
-
-
-const rangeGGValue = document.getElementById('rangeGGValue');
 const rangeGG = document.getElementById('rangeGG');
-elementsArray.push(rangeGG);
-rangeGGValue.innerHTML = rangeGG.value;
-
-const rangeSizeValue = document.getElementById('rangeSizeValue');
 const rangeSize = document.getElementById('rangeSize');
-elementsArray.push(rangeSize);
+
+let elementsArray = [rangeN, rangeD, rangeMaurer, rangeRotate, rangeGG, rangeSize]
+
+// VALUE OUTPUT
+
+const rangeNValue = document.getElementById('rangeNValue');
+const rangeDValue = document.getElementById('rangeDValue');
+const rangeMaurerValue = document.getElementById('rangeMaurerValue');
+const rangeRotateValue = document.getElementById('rangeRotateValue');
+const rangeGGValue = document.getElementById('rangeGGValue');
+const rangeSizeValue = document.getElementById('rangeSizeValue');
+
+// INITIAL OUTPUT SETUP
+
+rangeNValue.innerHTML = rangeN.value;
+rangeDValue.innerHTML = rangeD.value;
+rangeMaurerValue.innerHTML = rangeMaurer.value;
+rangeRotateValue.innerHTML = rangeRotate.value;
+rangeGGValue.innerHTML = rangeGG.value;
 rangeSizeValue.innerHTML = rangeSize.value;
 
-// change events handling
-elementsArray.forEach((element)=>{
-  element.addEventListener('mousemove', () => {
-    rangeNValue.innerHTML = rangeN.value;
-    rangeDValue.innerHTML = rangeD.value;
-    rangeMaurerValue.innerHTML = rangeMaurer.value;
-    rangeGGValue.innerHTML = rangeGG.value;
-    rangeSizeValue.innerHTML = rangeSize.value;
-    rangeRotateValue.innerHTML = rangeRotate.value;
+// EVENT HANDLERS
 
-    n = rangeN.value;
-    d = rangeD.value;
-    maurer = rangeMaurer.value;
-  	size = rangeSize.value;
-  	rotate = rangeRotate.value;
-  	gg = rangeGG.value;
-    k = n / d;
-    draw(n, d, maurer, k, size, rotate, gg);
-  });
-});
+function addListenerMulti(element, listeners, fn) {
+  listeners.split(' ').forEach(event => element.addEventListener(event, fn, false));
+}
 
-elementsArray.forEach((element)=>{
-  element.addEventListener('touchmove', () => {
+elementsArray.forEach(element => {
+  addListenerMulti(element, 'mousemove touchmove', () => {
     rangeNValue.innerHTML = rangeN.value;
     rangeDValue.innerHTML = rangeD.value;
     rangeMaurerValue.innerHTML = rangeMaurer.value;
