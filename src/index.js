@@ -19,7 +19,7 @@ let d = 2;
 let k = n/d;
 let maurer = 71; // 0-360
 let size = 300;
-let rotate = 0; 
+let rotate = 0;
 let gg = 0; //Guido Grandi
 
 const xStart = canvas.width/2;
@@ -72,84 +72,38 @@ button.addEventListener('click', () => {
   k = n / d;
   draw(n, d, maurer, k,size,rotate,gg);
 })
+
 // sliders setup
+
 let elementsArray = []
 const rangeNValue = document.getElementById('rangeNValue');
 const rangeN = document.getElementById('rangeN');
 elementsArray.push(rangeN);
 rangeNValue.innerHTML = rangeN.value;
-rangeN.addEventListener('mousemove', () => {
-  rangeNValue.innerHTML = rangeN.value;
-  inputN.value = rangeN.value;
-})
-rangeN.addEventListener('touchmove', () => {
-  rangeNValue.innerHTML = rangeN.value;
-  inputN.value = rangeN.value;
-})
+
 const rangeDValue = document.getElementById('rangeDValue');
 const rangeD = document.getElementById('rangeD');
 elementsArray.push(rangeD);
 rangeDValue.innerHTML = rangeD.value;
-rangeD.addEventListener('mousemove', () => {
-  rangeDValue.innerHTML = rangeD.value;
-  inputD.value = rangeD.value;
-})
-rangeD.addEventListener('touchmove', () => {
-  rangeDValue.innerHTML = rangeD.value;
-  inputD.value = rangeD.value;
-})
 
 const rangeMaurerValue = document.getElementById('rangeMaurerValue');
 const rangeMaurer = document.getElementById('rangeMaurer');
 elementsArray.push(rangeMaurer);
 rangeMaurerValue.innerHTML = rangeMaurer.value;
-rangeMaurer.addEventListener('mousemove', () => {
-  rangeMaurerValue.innerHTML = rangeMaurer.value;
-  inputMaurer.value = rangeMaurer.value;
-})
-rangeMaurer.addEventListener('touchmove', () => {
-  rangeMaurerValue.innerHTML = rangeMaurer.value;
-  inputMaurer.value = rangeMaurer.value;
-})
 
 const rangeRotateValue = document.getElementById('rangeRotateValue');
 const rangeRotate = document.getElementById('rangeRotate');
 elementsArray.push(rangeRotate);
-rangeRotateValue.innerHTML = rangeRotate.value;
-rangeRotate.addEventListener('mousemove', () => {
-  rangeRotateValue.innerHTML = rangeRotate.value;
-  inputRotate.value = rangeRotate.value;
-})
-rangeRotate.addEventListener('touchmove', () => {
-  rangeRotateValue.innerHTML = rangeRotate.value;
-  inputRotate.value = rangeRotate.value;
-})
 
 const rangeGGValue = document.getElementById('rangeGGValue');
 const rangeGG = document.getElementById('rangeGG');
 elementsArray.push(rangeGG);
 rangeGGValue.innerHTML = rangeGG.value;
-rangeGG.addEventListener('mousemove', () => {
-  rangeGGValue.innerHTML = rangeGG.value;
-  inputGG.value = rangeGG.value;
-})
-rangeGG.addEventListener('touchmove', () => {
-  rangeGGValue.innerHTML = rangeGG.value;
-  inputGG.value = rangeGG.value;
-})
 
 const rangeSizeValue = document.getElementById('rangeSizeValue');
 const rangeSize = document.getElementById('rangeSize');
 elementsArray.push(rangeSize);
 rangeSizeValue.innerHTML = rangeSize.value;
-rangeSize.addEventListener('mousemove', () => {
-  rangeSizeValue.innerHTML = rangeSize.value;
-  inputSize.value = rangeSize.value;
-})
-rangeSize.addEventListener('touchmove', () => {
-  rangeSizeValue.innerHTML = rangeSize.value;
-  inputSize.value = rangeSize.value;
-})
 
 // change events handling
 elementsArray.forEach((element)=>{
@@ -157,11 +111,11 @@ elementsArray.forEach((element)=>{
     n = rangeN.value;
     d = rangeD.value;
     maurer = rangeMaurer.value;
-	size = rangeSize.value;
-	rotate = rangeRotate.value;
-	gg = rangeGG.value;
+  	size = rangeSize.value;
+  	rotate = rangeRotate.value;
+  	gg = rangeGG.value;
     k = n / d;
-    draw(n, d, maurer, k,size,rotate,gg);
+    draw(n, d, maurer, k, size, rotate, gg);
   });
 });
 
@@ -170,23 +124,20 @@ elementsArray.forEach((element)=>{
     n = rangeN.value;
     d = rangeD.value;
     maurer = rangeMaurer.value;
-	size = rangeSize.value;
-	rotate = rangeRotate.value;
-	gg = rangeGG.value;
+  	size = rangeSize.value;
+  	rotate = rangeRotate.value;
+  	gg = rangeGG.value;
     k = n / d;
-    draw(n, d, maurer, k,size, rotate,gg);
+    draw(n, d, maurer, k, size, rotate, gg);
   });
 });
-
-
-
 
 arrayInputs.forEach((element)=> {
   element.addEventListener('keyup', () => {
     rangeNValue.innerHTML = rangeN.value = inputN.value;
     rangeDValue.innerHTML = rangeD.value = inputD.value;
     rangeMaurerValue.innerHTML = rangeMaurer.value = inputMaurer.value;
-	rangeGGValue.innerHTML = rangeGG.value = inputGG.value;
+	  rangeGGValue.innerHTML = rangeGG.value = inputGG.value;
   })
 })
 
