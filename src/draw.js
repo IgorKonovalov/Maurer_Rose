@@ -26,7 +26,7 @@ function draw(n, d, maurer, k, size, rotate, gg) {
   cx.clearRect(0, 0, canvas.width, canvas.height)
   // connecting rose on angle
   if (checkMaurer.checked) {
-    for (let i = 0; i < 3600; i++) {
+    for (let i = 0; i <= 3600; i++) {
       if (colorize.checked) {
         if (i < 2000) {
           cx.strokeStyle = `hsl(0, 0%, 50%)`
