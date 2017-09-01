@@ -1,28 +1,26 @@
 // INITIAL SETUP
 
 let r, x, y, fi, deg
+let settings = {
+  n : 2,
+  d : 20,
+  maurer : 71,
+  size : 400,
+  rotate : 0,
+  gg : 0
+}
 
-let n = 2
-let d = 20
-let k = n / d
-let maurer = 71 // 0-360
-let size = 300
-let rotate = 0
-let gg = 0 // Guido Grandi
-
-inputN.value = rangeNValue.innerHTML = rangeN.value = 2
-inputD.value = rangeDValue.innerHTML = rangeD.value = 20
-inputMaurer.value = rangeMaurerValue.innerHTML = rangeMaurer.value = 71
-inputSize.value = rangeSizeValue.innerHTML = rangeSize.value = 300
-inputRotate.value = rangeRotateValue.innerHTML = rangeRotate.value = 0
-inputGG.value = rangeGGValue.innerHTML = rangeGG.value = 0
+canvas.width = document.body.offsetWidth
+canvas.height = 930
 
 const xStart = canvas.width / 2
 const yStart = canvas.height / 2
 
 cx.lineCap = 'round'
 
-function draw(n, d, maurer, k, size, rotate, gg) {
+function draw() {
+  const {n, d, maurer, size, rotate, gg} = settings
+  let k = n / d
   cx.clearRect(0, 0, canvas.width, canvas.height)
   // connecting rose on angle
   if (checkMaurer.checked) {
@@ -69,4 +67,32 @@ function draw(n, d, maurer, k, size, rotate, gg) {
   }
 }
 // pre-render
-draw(n, d, maurer, k, size, rotate, gg)
+draw()
+
+const datgui = () => {
+  gui = new dat.GUI()
+
+  // Settings
+  let guiSettings = gui.addFolder('Settings')
+  console.log(guiSettings)
+  guiSettings.add(settings, 'lines', 5, 50).step(1).onChange(draw)
+  guiSettings.add(settings, 'amplitudeX', 20, 300).step(1).onChange(draw)
+  guiSettings.add(settings, 'amplitudeY', 0, 200).step(1).onChange(draw)
+  guiSettings.add(settings, 'offsetX', -20, 20).step(1).onChange(draw)
+  guiSettings.add(settings, 'smoothness', 0.5, 10).step(0.2).onChange(draw)
+  guiSettings.add(settings, 'fill', false).onChange(draw)
+  guiSettings.add(settings, 'crazyness', false).onChange(draw)
+  guiSettings.open()
+
+  // Randomize
+  let guiRandomize = {
+    randomize: function() {
+      randomize()
+    }
+  }
+  gui.add(guiRandomize, 'randomize')
+
+  return gui
+}
+
+datgui()

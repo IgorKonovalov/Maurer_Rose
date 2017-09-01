@@ -7,9 +7,9 @@
   <link rel="stylesheet" href="src/main.css">
   <title>Mathematical Rose</title>
 </head>
-<body>
-  <canvas id="rose" width="900" height="900" style="background-color: black;"></canvas>
-  <div class="inputsContainer">
+<body >
+  <canvas id="rose"></canvas>
+  <div class="inputsContainer" style="display: none;">
     <br>
     n: <input type="text" name="" value="20" id="n">
     d: <input type="text" name="" value="2" id="d">
@@ -19,7 +19,7 @@
     rotate: <input type="text" name="" value="0" id="rotate">
     guidoGrandi: <input type="text" name="" value="0" id="gg">
     <p>
-      <input type="checkbox" id="showRose" checked> Show rose
+      <input type="checkbox" id="showRose"> Show rose
       <input type="checkbox" id="showMaurer" checked> Show Maurer lines
       <input type="checkbox" id="colorize"> Colorize
     </p>
@@ -50,6 +50,8 @@
       </div>
     </div>
   </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.6.5/dat.gui.min.js"></script>
   <script src="src/index.js"></script>
   <script src="src/draw.js"></script>
 

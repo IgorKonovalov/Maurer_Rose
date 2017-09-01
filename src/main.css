@@ -3,7 +3,7 @@ input[type="range"] {
 }
 span {
   margin-top: 2px;
-  margin-left:5px;
+  margin-left: 5px;
 }
 input[type="text"] {
   width: 40px;
@@ -31,4 +31,19 @@ input[type="text"] {
 .inputsContainer {
   float: left;
   padding-right: 70px;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  height: 100vh;
+  overflow: hidden;
+  background-color: black;
+}
+
+canvas {
+  background-color: black;
+  display: block;
+  margin: 0;
+  padding: 0;
 }
