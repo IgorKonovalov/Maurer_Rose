@@ -1,125 +1,153 @@
+// INITIAL SETUP
+
 const canvas = document.getElementById('rose')
 const cx = canvas.getContext('2d')
 
-// INPUTS
-
-const inputN = document.getElementById('n')
-const inputD = document.getElementById('d')
-const inputMaurer = document.getElementById('maurer')
-const inputSize = document.getElementById('size')
-const inputRotate = document.getElementById('rotate')
-const inputGG = document.getElementById('gg')
-
-const arrayInputs = [
-  inputN,
-  inputD,
-  inputMaurer,
-  inputSize,
-  inputRotate,
-  inputGG
-]
-
-// CHECKBOXES
-
-const checkRose = document.getElementById('showRose')
-const checkMaurer = document.getElementById('showMaurer')
-const colorize = document.getElementById('colorize')
-
-const arrayCheck = [checkRose, checkMaurer, colorize]
-
-// SLIDERS
-
-const rangeN = document.getElementById('rangeN')
-const rangeD = document.getElementById('rangeD')
-const rangeMaurer = document.getElementById('rangeMaurer')
-const rangeRotate = document.getElementById('rangeRotate')
-const rangeGG = document.getElementById('rangeGG')
-const rangeSize = document.getElementById('rangeSize')
-
-let elementsArray = [
-  rangeN,
-  rangeD,
-  rangeMaurer,
-  rangeRotate,
-  rangeGG,
-  rangeSize
-]
-
-// VALUE OUTPUT
-
-const rangeNValue = document.getElementById('rangeNValue')
-const rangeDValue = document.getElementById('rangeDValue')
-const rangeMaurerValue = document.getElementById('rangeMaurerValue')
-const rangeRotateValue = document.getElementById('rangeRotateValue')
-const rangeGGValue = document.getElementById('rangeGGValue')
-const rangeSizeValue = document.getElementById('rangeSizeValue')
-
-// INITIAL OUTPUT SETUP
-
-rangeNValue.innerHTML = rangeN.value
-rangeDValue.innerHTML = rangeD.value
-rangeMaurerValue.innerHTML = rangeMaurer.value
-rangeRotateValue.innerHTML = rangeRotate.value
-rangeGGValue.innerHTML = rangeGG.value
-rangeSizeValue.innerHTML = rangeSize.value
-
-// EVENT HANDLERS
-
-function addListenerMulti(element, listeners, fn) {
-  listeners
-    .split(' ')
-    .forEach(event => element.addEventListener(event, fn, false))
+let r, x, y, fi, deg
+let settings = {
+  n: 2,
+  d: 20,
+  maurer: 71,
+  size: 400,
+  rotate: 0,
+  gg: 0,
+  drawMaurer: true,
+  colorize: false,
+  drawRose: false
 }
 
-elementsArray.forEach(element => {
-  addListenerMulti(element, 'mousemove touchmove', () => {
-    inputN.value = rangeNValue.innerHTML = rangeN.value
-    inputD.value = rangeDValue.innerHTML = rangeD.value
-    inputMaurer.value = rangeMaurerValue.innerHTML = rangeMaurer.value
-    inputGG.value = rangeGGValue.innerHTML = rangeGG.value
-    inputSize.value = rangeSizeValue.innerHTML = rangeSize.value
-    inputRotate.value = rangeRotateValue.innerHTML = rangeRotate.value
+let xStart, yStart
 
-    n = rangeN.value
-    d = rangeD.value
-    maurer = rangeMaurer.value
-    size = rangeSize.value
-    rotate = rangeRotate.value
-    gg = rangeGG.value
-    k = n / d
-    draw(n, d, maurer, k, size, rotate, gg)
-  })
+window.addEventListener('resize', () => {
+  console.log('resizing')
+  canvas.width = document.body.offsetWidth
+  canvas.height = document.body.offsetHeight
+
+  xStart = canvas.width / 2
+  yStart = canvas.height / 2
+  draw()
 })
 
-arrayInputs.forEach(element => {
-  element.addEventListener('input', () => {
-    rangeNValue.innerHTML = rangeN.value = inputN.value
-    rangeDValue.innerHTML = rangeD.value = inputD.value
-    rangeMaurerValue.innerHTML = rangeMaurer.value = inputMaurer.value
-    rangeGGValue.innerHTML = rangeGG.value = inputGG.value
-    rangeSizeValue.innerHTML = rangeSize.value = inputSize.value
-    rangeRotateValue.innerHTML = rangeRotate.value = inputRotate.value
+canvas.width = document.body.offsetWidth
+canvas.height = document.body.offsetHeight
+xStart = canvas.width / 2
+yStart = canvas.height / 2
 
-    n = rangeN.value
-    d = rangeD.value
-    maurer = rangeMaurer.value
-    size = rangeSize.value
-    rotate = rangeRotate.value
-    gg = rangeGG.value
-    k = n / d
-    draw(n, d, maurer, k, size, rotate, gg)
-  })
-})
+cx.lineCap = 'round'
 
-arrayCheck.forEach(checkbox => {
-  checkbox.addEventListener('change', () => {
-    n = inputN.value
-    d = inputD.value
-    maurer = inputMaurer.value
-    rotate = inputRotate.value
-    gg = inputGG.value
-    size = inputSize.value
-    k = n / d
-    draw(n, d, maurer, k, size, rotate, gg)
-  })
-})
+function draw() {
+  const {
+    n,
+    d,
+    maurer,
+    size,
+    rotate,
+    gg,
+    drawMaurer,
+    colorize,
+    drawRose
+  } = settings
+
+  let k = n / d
+  cx.clearRect(0, 0, canvas.width, canvas.height)
+  // connecting rose on angle
+  if (drawMaurer) {
+    for (let i = 0; i <= 3600; i++) {
+      if (colorize) {
+        cx.strokeStyle = `hsl(${i / 10}, 100%, 50%)`
+      } else {
+        cx.strokeStyle = 'white'
+      }
+      cx.lineWidth = 0.5
+      cx.beginPath()
+      fi = maurer * i * Math.PI / 180
+      r = Math.sin(-k * fi - rotate) * size + Math.round(gg)
+      x = xStart + r * Math.cos(fi)
+      y = yStart + r * Math.sin(fi)
+      if (i === 0) {
+        cx.moveTo(x, y)
+      } else {
+        cx.moveTo(xPrev, yPrev)
+      }
+      xPrev = x
+      yPrev = y
+      cx.lineTo(x, y)
+      cx.stroke()
+    }
+  }
+  // drawing rose
+  if (drawRose) {
+    cx.beginPath()
+    cx.strokeStyle = 'red'
+    cx.lineWidth = 0.1
+    for (let a = 0; a < 3600 * Math.ceil(d); a++) {
+      deg = a * Math.PI / 180
+      r = Math.sin(-k * deg - rotate) * size + Math.round(gg)
+      x = xStart + r * Math.cos(deg)
+      y = yStart + r * Math.sin(deg)
+      cx.lineTo(x, y)
+    }
+    cx.stroke()
+  }
+}
+// pre-render
+draw()
+
+const randomize = () => {
+  console.log('yoyoy')
+}
+
+const datgui = () => {
+  gui = new dat.GUI()
+
+  // Settings
+  let guiSettings = gui.addFolder('Settings')
+
+  guiSettings
+    .add(settings, 'n', 0, 20)
+    .step(0.01)
+    .onChange(draw)
+  guiSettings
+    .add(settings, 'd', 0, 30)
+    .step(0.01)
+    .onChange(draw)
+  guiSettings
+    .add(settings, 'maurer', 0, 360)
+    .step(1)
+    .onChange(draw)
+  guiSettings
+    .add(settings, 'size', 50, 1000)
+    .step(5)
+    .onChange(draw)
+  guiSettings
+    .add(settings, 'rotate', 0, 6.3)
+    .step(0.01)
+    .onChange(draw)
+  guiSettings
+    .add(settings, 'gg', 0, 500)
+    .step(1)
+    .onChange(draw)
+  guiSettings.add(settings, 'drawMaurer', true).onChange(draw)
+  guiSettings.add(settings, 'colorize', false).onChange(draw)
+  guiSettings.add(settings, 'drawRose', false).onChange(draw)
+
+  guiSettings.open()
+
+  // Randomize
+  let guiRandomize = {
+    randomize() {
+      randomize()
+    }
+  }
+  let guiSave = {
+    save() {
+      save()
+    }
+  }
+  gui.add(guiRandomize, 'randomize')
+  gui.add(guiSave, 'save')
+
+  return gui
+}
+
+datgui()
