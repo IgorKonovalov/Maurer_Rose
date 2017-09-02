@@ -19,7 +19,6 @@ let settings = {
 let xStart, yStart
 
 window.addEventListener('resize', () => {
-  console.log('resizing')
   canvas.width = document.body.offsetWidth
   canvas.height = document.body.offsetHeight
 
@@ -90,50 +89,76 @@ function draw() {
     cx.stroke()
   }
 }
+
 // pre-render
 draw()
 
 const randomize = () => {
-  console.log('yoyoy')
+  Object.assign(settings, {
+    n: Math.random() * 20,
+    d: Math.random() * 30,
+    maurer: Math.random() * 360,
+    size: Math.random() * 1100 - 100,
+    gg: Math.random() * 500
+  })
+  draw()
+}
+
+const save = () => {
+  const image = canvas
+    .toDataURL('image/png')
+    .replace('image/png', 'image/octet-stream')
+  const link = document.createElement('a');
+  document.body.appendChild(link);
+  const now = new Date()
+  const timeString = now.toTimeString().replace(/ /g, '_')
+  link.href = image;
+  link.setAttribute('download', `Maurer_Rose_${timeString}.png`)
+  link.click();
 }
 
 const datgui = () => {
   gui = new dat.GUI()
 
-  // Settings
   let guiSettings = gui.addFolder('Settings')
 
   guiSettings
     .add(settings, 'n', 0, 20)
     .step(0.01)
     .onChange(draw)
+    .listen()
   guiSettings
     .add(settings, 'd', 0, 30)
     .step(0.01)
     .onChange(draw)
+    .listen()
   guiSettings
     .add(settings, 'maurer', 0, 360)
     .step(1)
     .onChange(draw)
+    .listen()
   guiSettings
     .add(settings, 'size', 50, 1000)
     .step(5)
     .onChange(draw)
+    .listen()
   guiSettings
     .add(settings, 'rotate', 0, 6.3)
     .step(0.01)
     .onChange(draw)
+    .listen()
   guiSettings
     .add(settings, 'gg', 0, 500)
     .step(1)
     .onChange(draw)
+    .listen()
+
   guiSettings.add(settings, 'drawMaurer', true).onChange(draw)
   guiSettings.add(settings, 'colorize', false).onChange(draw)
   guiSettings.add(settings, 'drawRose', false).onChange(draw)
 
   guiSettings.open()
 
-  // Randomize
   let guiRandomize = {
     randomize() {
       randomize()
